@@ -183,7 +183,53 @@ class Controller(object):
     def check_win(self) -> bool:
         '''
         Checks if winner is accessed
-        TODO: Explain how
+        Gets the active player's binary board
+        Shifts binary board to the left one and stores value
+        Shifts binary board to the right one and stores value
+        AND's all binary boards
+        AND's combined boards with repeated 010's
+        Repeated 010's checks that only 1 that passes through can be in the middle, so must be a winning case
+        If integer value is not 0, the player has a winning position
+        
+        Example,
+        If player wins by only playing on first column their binary board is,
+        100100100111000000100001
+        Left bitshift value is,
+        001001001110000001000010
+        Right bitshift value is,
+        010010010011100000010000
+
+         100100100111000000100001
+        &001001001110000001000010
+        &010010010011100000010000
+         ------------------------
+         000000000010000000000000
+        &010010010010010010010010
+         ------------------------
+         000000000010000000000000
+
+        Because the int value of the binary value is not 0, the player won at a position
+
+        The repeated 010's works because bitshift can make the value a non-zero number by combining wrong cells without it
+        However, the combined binary values is not centered in the middle of the three values
+        For example, we'll show if a player only played on cells 1, 2, and 3, which is not a winning combination
+        Their binary board is,
+        011100000010100100000100
+        Left bitshift value is,
+        111000000101001000001000
+        Right bitshift value is,
+        001110000001010010000010
+
+         011100000010100100000100
+        &111000000101001000001000
+        &001110000001010010000010
+         ------------------------
+         001000000000000000000000
+
+        The int value of the binary is not zero. However, when AND'ed with 010's the binary value becomes,
+        000000000000000000000000
+
+        Therefore, the int value of the binary becomes 0, so the player did not win
 
         :returns: boolen value for if there is a winner. True if there is a winner, False otherwise
         '''
